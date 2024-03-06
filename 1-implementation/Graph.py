@@ -35,14 +35,31 @@ class graph:
             entry_grade = 0
             for j in range(len(self.adjacency_matrix)):
                 if self.adjacency_matrix[j][i] != 0:
-                    entry_grade +=1
+                    entry_grade += 1
             print(f"{i+1}: {entry_grade}")
 
-    
+    def set_of_successors(self):
+        print("(iii) Set of Successors:")
+        for i in range(len(self.adjacency_matrix)):
+            successors = []
+            for j in range(len(self.adjacency_matrix[0])):
+                if self.adjacency_matrix[i][j] != 0:
+                    successors.append(j + 1)
+            print(f"{i+1}: {successors}")
 
+    def set_of_predecessors(self):
+        print("(iiii) Set of Predecessors:")
+        for i in range(len(self.adjacency_matrix[0])):
+            predecessors = []
+            for j in range(len(self.adjacency_matrix)):
+                if self.adjacency_matrix[j][i] != 0:
+                    predecessors.append(j + 1)
+            print(f"{i+1}: {predecessors}")
 
 
 graph_instance = graph(100, "graph-test-100-1.txt")
-print(graph_instance.adjacency_matrix)
-graph_instance._calculate_exit_grade()
-graph_instance._calculate_entry_grade()
+# print(graph_instance.adjacency_matrix)
+# graph_instance._calculate_exit_grade()
+# graph_instance._calculate_entry_grade()
+# graph_instance.set_of_successors()
+# graph_instance.set_of_predecessors()

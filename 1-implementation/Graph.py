@@ -1,7 +1,6 @@
 class graph:
-    def __init__(self, size, file_path) -> None:
+    def __init__(self, file_path) -> None:
         self.file_path = file_path
-        self._start_matrix(size)
         self._read_file()
 
     def _start_matrix(self, size):
@@ -15,9 +14,10 @@ class graph:
     def _read_file(self):
         try:
             with open(self.file_path, "r") as file:
+                first_line = file.readline().strip()
+                number_of_vertex, number_of_edges = map(int, first_line.split())
+                self._start_matrix(number_of_vertex)
                 for line_number, line in enumerate(file):
-                    if line_number == 0:
-                        continue
                     origin, destination = map(int, line.strip().split())
                     self.adjacency_matrix[origin - 1][destination - 1] = 1
         except Exception as e:
@@ -57,9 +57,9 @@ class graph:
             print(f"{i+1}: {predecessors}")
 
 
-graph_instance = graph(100, "graph-test-100-1.txt")
+graph_instance = graph("graph-test-50000-1.txt")
 # print(graph_instance.adjacency_matrix)
 # graph_instance._calculate_exit_grade()
 # graph_instance._calculate_entry_grade()
-# graph_instance.set_of_successors()
+graph_instance.set_of_successors()
 # graph_instance.set_of_predecessors()

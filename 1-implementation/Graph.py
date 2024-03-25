@@ -57,7 +57,7 @@ class graph:
             print(f"{i+1}: {predecessors}")
 
 
-graph_instance = graph("graph-test-50000-1.txt")
+graph_instance = graph("graph-test-100-1.txt")
 # print(graph_instance.adjacency_matrix)
 # graph_instance._calculate_exit_grade()
 # graph_instance._calculate_entry_grade()

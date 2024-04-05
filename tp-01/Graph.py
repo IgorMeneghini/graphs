@@ -1,49 +1,59 @@
 import random
+import sys
 
 
 class graph:
     def __init__(self, number_of_vertex) -> None:
         self.number_of_vertex = number_of_vertex
+        self.adjacency_list = self._start_list()
 
     def _start_list(self):
-        self.adjacency_list = {}
+        adjacency_list = {}
         for i in range(self.number_of_vertex):
-            self.adjacency_list[i] = []
+            adjacency_list[i] = []
+        return adjacency_list
+        # this for generate a list of lists going from 0 to 99 empty
 
+    def generate_edges(self):
         for i in range(self.number_of_vertex):
-            random_vertex_degree = random.randrange(0, self.number_of_vertex - 2)
+            # this for generate a random number to be the degree of the vertex
+            random_vertex_degree = random.randrange(0, self.number_of_vertex - 1)
+            while len(self.adjacency_list[i]) < random_vertex_degree:
+                # this is a loop inside the vertex i to generate the vertices adjacent to i
+                random_vertex = random.randrange(0, self.number_of_vertex)
 
-            for j in range(random_vertex_degree):
-
-                random_vertex = random.randrange(0, self.number_of_vertex - 1)
                 if random_vertex not in self.adjacency_list[i]:
-                    self.adjacency_list[i].append(random_vertex)
-                    self.adjacency_list[random_vertex].append(i)
+                    self.insertion_sort(self.adjacency_list[i], random_vertex)
+                    self.insertion_sort(self.adjacency_list[random_vertex], i)
+
+    def insertion_sort(self, list, vertex):
+        if vertex not in list:
+            if not list:
+                list.append(vertex)
+            else:
+                for i in range(len(list)):
+                    if vertex < list[i]:
+                        list.insert(i, vertex)
+                        return
+                list.append(vertex)
 
     def depth_first_search(self):
-        self.global_time = 0
-        discovery_time = [0] * self.number_of_vertex
-        end_time = [0] * self.number_of_vertex
-        father = [None] * self.number_of_vertex
-        for index, value in enumerate(discovery_time):
-            if value == 0:
-                self.dfs_visit(index, discovery_time, end_time, father)
-        print(discovery_time)
-        print(end_time)
-        print(father)
+        visited = [False] * self.number_of_vertex
+        print(self.dfs(10, 3, visited))
+        print(self.dfs(10, 3, visited))
 
-    def dfs_visit(self, vertex, discovery_time, end_time, father):
-        self.global_time += 1
-        discovery_time[vertex] = self.global_time
+    def dfs(self, vertex, end, visited):
+        print("{} ->".format(vertex), end="")
+        if vertex == end:
+            return True
+        visited[vertex] = True
         for i in self.adjacency_list[vertex]:
-            if discovery_time[i] == 0:
-                father[i] = vertex
-                self.dfs_visit(i, discovery_time, end_time, father)
-        self.global_time +=1
-        end_time[vertex] = self.global_time
-
+            if not visited[i]:
+                return self.dfs(i, end, visited)
 
 
 graph_instance = graph(100)
-graph_instance._start_list()
+graph_instance.generate_edges()
+for i in graph_instance.adjacency_list:
+    print("{}: {}".format(i, graph_instance.adjacency_list[i]))
 graph_instance.depth_first_search()

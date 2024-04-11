@@ -1,6 +1,4 @@
 import random
-import sys
-
 
 class graph:
     def __init__(self, number_of_vertex) -> None:
